@@ -37,7 +37,7 @@ Tester/
 │   └── HolaMundoAst.ts          # AST esperado (generado offline)
 ├── scripts/
 │   └── generateAst.js           # Script para generar AST desde archivos
-└── React.md                     # Este archivo (documentación IA)
+└── Readme.md                    # Este archivo (documentación IA)
 ```
 
 ---
@@ -64,10 +64,11 @@ Are there parse errors?
     1. `import React from 'react'`
     2. `import { View, Text } from 'react-native'`
     3. `const HolaMundo: React.FC = () =>`
-    4. Return JSX with `<View>` and `<Text>`
+    4. Return JSX with `<View>` and nested `<Text>`
     5. Text inside `<Text>` is `Hola Mundo`
     6. `export default HolaMundo`
         ↓
+    Update the checklist live while typing
     Show checklist with ✅/❌ for each step
 ```
 
@@ -217,6 +218,10 @@ Renders:
    - Includes the exact code fragment expected
    - Colors: green for pass, red for fail
 
+3. **Live UX:**
+   - The editor validates input on every keystroke
+   - Includes a dark mode toggle inside the editor header
+
 ---
 
 ## Cómo Agregar Nueva Validación
@@ -291,6 +296,8 @@ type ResultState = 'ok' | 'invalid' | 'parse-error' | null;
 - Parser AST con TypeScript Compiler
 - 6 validaciones independientes
 - Checklist visual interactivo
+- Validación en vivo mientras escribes
+- Soporte de modo oscuro en el editor
 - Manejo de errores de parseo
 
 ⚠️ **Pendiente (futuro):**

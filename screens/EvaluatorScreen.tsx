@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TextInput, View, Switch } from 'react-native';
 import * as ts from 'typescript';
 
 type ValidationResult = {
@@ -143,14 +143,43 @@ const parseUserCodeToSourceFile = (code: string): ts.SourceFile | null => {
   return sourceFile;
 };
 
-function Editor({ text, onChangeText }: { text: string; onChangeText: (value: string) => void }) {
+function Editor({
+  text,
+  onChangeText,
+  darkMode,
+  onDarkModeToggle,
+}: {
+  text: string;
+  onChangeText: (value: string) => void;
+  darkMode: boolean;
+  onDarkModeToggle: (value: boolean) => void;
+}) {
   return (
-    <View style={styles.card}>
-      <Text style={styles.cardTitle}>Editor</Text>
+    <View style={[styles.card, darkMode ? styles.cardDark : styles.cardLight]}>
+      <View style={styles.editorHeader}>
+        <Text style={[styles.cardTitle, darkMode ? styles.textDark : styles.textLight]}>
+          Editor
+        </Text>
+        <View style={styles.toggleContainer}>
+          <Text style={[styles.toggleLabel, darkMode ? styles.textDark : styles.textLight]}>
+            🌙
+          </Text>
+          <Switch
+            value={darkMode}
+            onValueChange={onDarkModeToggle}
+            trackColor={{ false: '#cbd5e1', true: '#475569' }}
+            thumbColor={darkMode ? '#f59e0b' : '#ffffff'}
+          />
+        </View>
+      </View>
       <TextInput
-        style={styles.textArea}
+        style={[
+          styles.textArea,
+          darkMode ? styles.textAreaDark : styles.textAreaLight,
+        ]}
         multiline
         placeholder="Escribe aquí tu código..."
+        placeholderTextColor={darkMode ? '#9ca3af' : '#6b7280'}
         value={text}
         onChangeText={onChangeText}
       />
@@ -191,6 +220,7 @@ export default function EvaluatorScreen() {
   const [editorText, setEditorText] = useState('');
   const [validationResults, setValidationResults] = useState<ValidationResult[]>([]);
   const [parseError, setParseError] = useState<string | null>(null);
+  const [darkMode, setDarkMode] = useState(false);
 
   const verifyInput = (value: string) => {
     if (!value.trim()) {
@@ -217,9 +247,21 @@ export default function EvaluatorScreen() {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Pantalla Evaluador</Text>
-      <Editor text={editorText} onChangeText={handleChangeText} />
+    <ScrollView
+      contentContainerStyle={[
+        styles.container,
+        darkMode ? styles.containerDark : styles.containerLight,
+      ]}
+    >
+      <Text style={[styles.title, darkMode ? styles.textDark : styles.textLight]}>
+        Pantalla Evaluador
+      </Text>
+      <Editor
+        text={editorText}
+        onChangeText={handleChangeText}
+        darkMode={darkMode}
+        onDarkModeToggle={setDarkMode}
+      />
       <Verificador results={validationResults} error={parseError} />
     </ScrollView>
   );
@@ -229,41 +271,76 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 20,
+  },
+  containerLight: {
     backgroundColor: '#f5f5f7',
+  },
+  containerDark: {
+    backgroundColor: '#1f2937',
   },
   title: {
     fontSize: 24,
     fontWeight: '700',
     marginBottom: 20,
     textAlign: 'center',
+  },
+  textLight: {
     color: '#111827',
+  },
+  textDark: {
+    color: '#f3f4f6',
   },
   card: {
     marginBottom: 20,
     padding: 16,
     borderRadius: 12,
-    backgroundColor: '#ffffff',
     shadowColor: '#000',
     shadowOpacity: 0.05,
     shadowRadius: 10,
     elevation: 3,
   },
+  cardLight: {
+    backgroundColor: '#ffffff',
+  },
+  cardDark: {
+    backgroundColor: '#374151',
+  },
+  editorHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  toggleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  toggleLabel: {
+    fontSize: 16,
+  },
   cardTitle: {
     fontSize: 18,
     fontWeight: '600',
-    marginBottom: 12,
-    color: '#111827',
   },
   textArea: {
     minHeight: 160,
     borderWidth: 1,
-    borderColor: '#d1d5db',
     borderRadius: 10,
     padding: 12,
     textAlignVertical: 'top',
-    backgroundColor: '#f8fafc',
     fontFamily: 'monospace',
     fontSize: 12,
+  },
+  textAreaLight: {
+    borderColor: '#d1d5db',
+    backgroundColor: '#f8fafc',
+    color: '#111827',
+  },
+  textAreaDark: {
+    borderColor: '#4b5563',
+    backgroundColor: '#1f2937',
+    color: '#f3f4f6',
   },
   resultText: {
     fontSize: 16,
