@@ -1,14 +1,10 @@
 import { useState } from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, View, Switch } from 'react-native';
+import { ScrollView, Text, TextInput, View, Switch } from 'react-native';
 import * as ts from 'typescript';
 
-type ValidationResult = {
-  id: number;
-  label: string;
-  passed: boolean;
-};
-
-type ResultState = 'ok' | 'invalid' | 'parse-error' | null;
+// Importaciones modularizadas
+import { ValidationResult } from './EvaluatorTypes';
+import { styles } from './EvaluatorStyles';
 
 const normalizeText = (value?: string): string => value?.replace(/\s+/g, ' ').trim() ?? '';
 
@@ -266,119 +262,3 @@ export default function EvaluatorScreen() {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    padding: 20,
-  },
-  containerLight: {
-    backgroundColor: '#f5f5f7',
-  },
-  containerDark: {
-    backgroundColor: '#1f2937',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: '700',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  textLight: {
-    color: '#111827',
-  },
-  textDark: {
-    color: '#f3f4f6',
-  },
-  card: {
-    marginBottom: 20,
-    padding: 16,
-    borderRadius: 12,
-    shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 3,
-  },
-  cardLight: {
-    backgroundColor: '#ffffff',
-  },
-  cardDark: {
-    backgroundColor: '#374151',
-  },
-  editorHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  toggleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  toggleLabel: {
-    fontSize: 16,
-  },
-  cardTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  textArea: {
-    minHeight: 160,
-    borderWidth: 1,
-    borderRadius: 10,
-    padding: 12,
-    textAlignVertical: 'top',
-    fontFamily: 'monospace',
-    fontSize: 12,
-  },
-  textAreaLight: {
-    borderColor: '#d1d5db',
-    backgroundColor: '#f8fafc',
-    color: '#111827',
-  },
-  textAreaDark: {
-    borderColor: '#4b5563',
-    backgroundColor: '#1f2937',
-    color: '#f3f4f6',
-  },
-  resultText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#111827',
-  },
-  statusPass: {
-    color: '#059669',
-  },
-  statusFail: {
-    color: '#dc2626',
-  },
-  validationList: {
-    marginTop: 12,
-    borderTopWidth: 1,
-    borderTopColor: '#e5e7eb',
-    paddingTop: 12,
-  },
-  validationRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-    paddingBottom: 8,
-  },
-  validationIcon: {
-    fontSize: 14,
-    marginRight: 8,
-    width: 20,
-  },
-  iconPass: {
-    color: '#059669',
-  },
-  iconFail: {
-    color: '#dc2626',
-  },
-  validationLabel: {
-    fontSize: 13,
-    color: '#374151',
-    flex: 1,
-  },
-});

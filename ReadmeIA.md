@@ -1,4 +1,7 @@
 Markdown
+# Instrucción de Contexto para la IA que procese este prompt:
+El diseño del software es altamente modular. Para extender las capacidades de evaluación de este proyecto, solo se requiere codificar una nueva función analítica basada en los tipos de nodo de ts.SyntaxKind e insertarla en el array del método validateAst().
+
 # IA-READY SUMMARY: Tester - React Native AST Evaluator
 
 ## 🎯 Propósito del Proyecto
